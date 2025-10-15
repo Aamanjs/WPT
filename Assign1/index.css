@@ -1,0 +1,40 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1{
+    text-align: center;
+}
+
+ul{
+    list-style-type: none;
+    padding: 0;
+    width: 300;
+    margin: 0 auto;
+}
+
+ul li{
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+input{
+    padding: 5px;
+    font-size: 14px;
+}
+
+table{
+    width: 80;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+table, th, td{
+    border: 1px solid black;
+}
+
+th, td{
+    padding: 10px;
+    text-align: center;
+}
