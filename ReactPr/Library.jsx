@@ -7,7 +7,7 @@ export default function Library() {
     const [form, setForm] = useState({book_id: 0, title: "", publication_year: "", author: "", genre: "", availability: ""})
     
     useEffect(() => {
-        LibraryService.getAll().then((data) => setLibrary(data));
+        LibraryService.getAll().then(setLibrary);
     }, [])
 
     //UI Operations
@@ -15,24 +15,32 @@ export default function Library() {
         setForm({...form, [e.target.name] : e.target.value})
     }
 
-    const handleAdd = async () => {
+    const handleClear = () => {
+        setForm({})
+    }
+
+    function handleAdd(){
         if(!form.title || !form.publication_year || !form.author || !form.genre || !form.availability){
             alert("Details not set, validation failed");
             return;
         }
-
-        const newRec = await LibraryService.add(form).then(LibraryService.getAll().then(setLibrary))
-        setLibrary([...Library, newRec])
+        LibraryService.add(form).then(() => {
+            LibraryService.getAll().then(setLibrary)
+        });
     }
 
-    function handleDelete(book_id){
-        LibraryService.delete(book_id).then(LibraryService.getAll().then(setLibrary))
+    function handleDelete (book_id){
+        console.log(book_id)
+        LibraryService.delete(book_id).then(() => {
+            LibraryService.getAll().then(setLibrary);
+        });
     }
 
     function handleEdit(){
-        LibraryService.update(form).then(LibraryService.getAll().then(setLibrary))
+        LibraryService.update(form).then(() => {
+            LibraryService.getAll().then(setLibrary)
+        });
     }
-
 
     const onChangeEdit = (e) => {
         setForm({
@@ -59,7 +67,7 @@ export default function Library() {
                                 Library.map(lib => {
                                     return(
                                         <div key={lib.book_id} className="col-md-6">
-                                            <div className="card mb-3 position-relative">
+                                            <div className="card mb-3 position-relative bg-light">
                                                 <div className="card-title text-primary text-center mt-3">{lib.title}</div>
                                                 <hr />
                                                 <div className="card-body">
@@ -85,15 +93,16 @@ export default function Library() {
                     </div>
                 </div>
                 <div className="col-md-4">
-                    <h2>New Record Adding</h2>
+                    <h2>Add/Update Record</h2>
                     <hr/>
                     <input className='form-control m-3' name='title' value={form.title} onChange={handleChange} placeholder="Enter Book Title"/>
                     <input className='form-control m-3' name='publication_year' value={form.publication_year} onChange={handleChange} placeholder="Enter Publication Year"/>
                     <input className='form-control m-3' name='author' value={form.author} onChange={handleChange} placeholder="Enter Author Name"/>
                     <input className='form-control m-3' name='genre' value={form.genre} onChange={handleChange} placeholder="Enter Genre"/>
                     <input className='form-control m-3' name='availability' value={form.availability} onChange={handleChange} placeholder="Enter Availability"/>
-                    <button onClick={handleAdd} className="btn btn-primary">Add record</button>
-                    <button onClick={handleEdit} className="btn btn-success mx-4">Update record</button>
+                    <button onClick={handleAdd} className="btn btn-primary p-1 ms-3">Add record</button>
+                    <button onClick={handleEdit} className="btn btn-success p-1 mx-3">Update record</button>
+                    <button onClick={handleClear} className="btn btn-warning p-1">Clear</button>
                 </div>
             </div>
         </div>
