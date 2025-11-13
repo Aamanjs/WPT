@@ -88,7 +88,7 @@ export default function Student() {
                                             <td>{std.date}</td>
                                             <td>
                                                 <button className="btn btn-danger btn-sm me-2" onClick={() => handleDelete(std.id)}>Delete</button>
-                                                <button className="btn btn-info btn-sm" onClick={() => onChangeEdit(std)}>Edit</button>
+                                                <button className="btn btn-info btn-sm mt-2" onClick={() => onChangeEdit(std)}>Edit</button>
                                             </td>
                                         </tr>
                                     ))
